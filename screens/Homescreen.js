@@ -5,8 +5,8 @@ const mockRestaurants = [
   {
     id: '1',
     name: 'Punjabi Tadka',
-    description: 'Spicy North Indian cuisine',
-    image: 'https://source.unsplash.com/600x400/?restaurant,punjabi',
+    description: 'Spicy North Indian cuisine with authentic flavors',
+    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop',
     rating: 4.5,
     deliveryTime: '30-40 min',
     cuisine: 'North Indian',
@@ -14,8 +14,8 @@ const mockRestaurants = [
   {
     id: '2',
     name: 'Veggie Delight',
-    description: 'Delicious vegetarian meals',
-    image: 'https://source.unsplash.com/600x400/?restaurant,vegan',
+    description: 'Delicious vegetarian meals and healthy options',
+    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop',
     rating: 4.2,
     deliveryTime: '25-35 min',
     cuisine: 'Vegetarian',
@@ -23,23 +23,107 @@ const mockRestaurants = [
   {
     id: '3',
     name: 'Tandoori Treats',
-    description: 'Authentic grilled flavors',
-    image: 'https://source.unsplash.com/600x400/?restaurant,tandoori',
+    description: 'Authentic grilled flavors and tandoor specialties',
+    image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&h=400&fit=crop',
     rating: 4.8,
     deliveryTime: '35-45 min',
     cuisine: 'Tandoori',
   },
+  {
+    id: '4',
+    name: 'Pizza Palace',
+    description: 'Fresh wood-fired pizzas with premium toppings',
+    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&h=400&fit=crop',
+    rating: 4.6,
+    deliveryTime: '20-30 min',
+    cuisine: 'Pizza',
+  },
+  {
+    id: '5',
+    name: 'Biryani House',
+    description: 'Aromatic biryanis with tender meat and fragrant rice',
+    image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&h=400&fit=crop',
+    rating: 4.7,
+    deliveryTime: '40-50 min',
+    cuisine: 'Biryani',
+  },
+  {
+    id: '6',
+    name: 'South Indian Spice',
+    description: 'Traditional dosas, idlis and South Indian delicacies',
+    image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&h=400&fit=crop',
+    rating: 4.4,
+    deliveryTime: '25-35 min',
+    cuisine: 'South Indian',
+  },
+  {
+    id: '7',
+    name: 'Sweet Dreams',
+    description: 'Artisanal desserts and pastries made fresh daily',
+    image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&h=400&fit=crop',
+    rating: 4.3,
+    deliveryTime: '15-25 min',
+    cuisine: 'Desserts',
+  },
+  {
+    id: '8',
+    name: 'Golden Dragon',
+    description: 'Authentic Chinese cuisine with wok-fried specialties',
+    image: 'https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&h=400&fit=crop',
+    rating: 4.1,
+    deliveryTime: '30-40 min',
+    cuisine: 'Chinese',
+  },
+  {
+    id: '9',
+    name: 'Burger Junction',
+    description: 'Juicy burgers with hand-cut fries and milkshakes',
+    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop',
+    rating: 4.0,
+    deliveryTime: '20-30 min',
+    cuisine: 'Fast Food',
+  },
+  {
+    id: '10',
+    name: 'Seafood Paradise',
+    description: 'Fresh seafood and coastal delicacies',
+    image: 'https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&h=400&fit=crop',
+    rating: 4.6,
+    deliveryTime: '35-45 min',
+    cuisine: 'Seafood',
+  },
+  {
+    id: '11',
+    name: 'Kebab Corner',
+    description: 'Grilled kebabs and Middle Eastern specialties',
+    image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&h=400&fit=crop',
+    rating: 4.5,
+    deliveryTime: '25-35 min',
+    cuisine: 'Middle Eastern',
+  },
+  {
+    id: '12',
+    name: 'Thai Spice',
+    description: 'Authentic Thai cuisine with bold flavors',
+    image: 'https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&h=400&fit=crop',
+    rating: 4.4,
+    deliveryTime: '30-40 min',
+    cuisine: 'Thai',
+  },
 ];
 
-const categories = ['All', 'Pizza', 'Biryani', 'South Indian', 'Desserts', 'Chinese'];
+const categories = ['All', 'Pizza', 'Biryani', 'South Indian', 'Desserts', 'Chinese', 'Fast Food', 'Seafood', 'Middle Eastern', 'Thai', 'North Indian', 'Vegetarian', 'Tandoori'];
 
 export default function HomeScreen({ navigation }) {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const filteredData = mockRestaurants.filter(r =>
-    r.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredData = mockRestaurants.filter(r => {
+    const matchesSearch = r.name.toLowerCase().includes(search.toLowerCase()) ||
+                         r.description.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = selectedCategory === 'All' || r.cuisine === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   const renderHeader = () => (
     <View>
