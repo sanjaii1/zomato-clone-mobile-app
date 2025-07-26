@@ -26,8 +26,8 @@ export default function App() {
             },
             headerShadowVisible: false,
             headerBackTitleVisible: false,
-            headerBackImageSource: null,
             headerBackTitle: '',
+            headerBackVisible: true,
           }}
         >
           <Stack.Screen
@@ -50,6 +50,7 @@ export default function App() {
                 fontWeight: '700',
                 fontSize: 18,
               },
+              headerBackVisible: true,
             })}
           />
           <Stack.Screen
@@ -59,6 +60,7 @@ export default function App() {
               title: '🛒 Your Cart',
               headerRight: () => <CartHeaderIcon navigation={navigation} />,
               headerTitleAlign: 'center',
+              headerBackVisible: true,
             })}
           />
         </Stack.Navigator>

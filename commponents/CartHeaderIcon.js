@@ -9,7 +9,13 @@ export default function CartHeaderIcon({ navigation }) {
 
   return (
     <TouchableOpacity 
-      onPress={() => navigation.navigate('Cart')}
+      onPress={() => {
+        try {
+          navigation.navigate('Cart');
+        } catch (error) {
+          console.error('Navigation error:', error);
+        }
+      }}
       style={styles.touchable}
     >
       <View style={styles.container}>

@@ -6,7 +6,8 @@ import { CartContext } from '../CartContext';
 
 
 export default function RestaurantDetails({ route }) {
-  const { name, image, cuisine, rating } = route.params;
+  const { restaurant } = route.params || {};
+  const { name, image, cuisine, rating } = restaurant || {};
   const navigation = useNavigation();
 
   const { cartItems, addToCart } = useContext(CartContext);
@@ -23,26 +24,21 @@ export default function RestaurantDetails({ route }) {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: image }} style={styles.image} />
-        <View style={styles.imageOverlay}>
-          <TouchableOpacity 
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={styles.backButtonText}>←</Text>
-          </TouchableOpacity>
-        </View>
+        <Image 
+          source={{ uri: image || 'https://source.unsplash.com/600x400/?restaurant' }} 
+          style={styles.image} 
+        />
       </View>
 
       <View style={styles.content}>
         <View style={styles.headerSection}>
-          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.name}>{name || 'Restaurant'}</Text>
           <View style={styles.infoRow}>
             <View style={styles.cuisineBadge}>
-              <Text style={styles.cuisineText}>{cuisine}</Text>
+              <Text style={styles.cuisineText}>{cuisine || 'Cuisine'}</Text>
             </View>
             <View style={styles.ratingBadge}>
-              <Text style={styles.ratingText}>⭐ {rating}</Text>
+              <Text style={styles.ratingText}>⭐ {rating || '0.0'}</Text>
             </View>
           </View>
         </View>
@@ -102,30 +98,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 250,
   },
-  imageOverlay: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-    right: 20,
-  },
-  backButton: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  backButtonText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-  },
+
   content: {
     paddingHorizontal: 20,
   },

@@ -9,6 +9,7 @@ const mockRestaurants = [
     image: 'https://source.unsplash.com/600x400/?restaurant,punjabi',
     rating: 4.5,
     deliveryTime: '30-40 min',
+    cuisine: 'North Indian',
   },
   {
     id: '2',
@@ -17,6 +18,7 @@ const mockRestaurants = [
     image: 'https://source.unsplash.com/600x400/?restaurant,vegan',
     rating: 4.2,
     deliveryTime: '25-35 min',
+    cuisine: 'Vegetarian',
   },
   {
     id: '3',
@@ -25,6 +27,7 @@ const mockRestaurants = [
     image: 'https://source.unsplash.com/600x400/?restaurant,tandoori',
     rating: 4.8,
     deliveryTime: '35-45 min',
+    cuisine: 'Tandoori',
   },
 ];
 
@@ -84,7 +87,13 @@ export default function HomeScreen({ navigation }) {
   const renderRestaurant = ({ item }) => (
     <TouchableOpacity
       style={styles.card}
-      onPress={() => navigation.navigate('RestaurantDetails', { restaurant: item })}
+      onPress={() => {
+        try {
+          navigation.navigate('RestaurantDetails', { restaurant: item });
+        } catch (error) {
+          console.error('Navigation error:', error);
+        }
+      }}
     >
       <Image source={{ uri: item.image }} style={styles.image} />
       <View style={styles.cardContent}>
