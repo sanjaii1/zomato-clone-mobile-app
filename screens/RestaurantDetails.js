@@ -1,41 +1,30 @@
-import { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  ScrollView,
-  Button,
-  Alert,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useState } from 'react';
+import { View, Text, Image, StyleSheet, ScrollView, Button, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useContext } from 'react';
+import { CartContext } from '../CartContext';
+
 
 export default function RestaurantDetails({ route }) {
+  const { name, image, cuisine, rating } = route.params;
   const navigation = useNavigation();
 
-  const { name, image, cuisine, rating } = route.params;
+  const { cartItems, addToCart } = useContext(CartContext);
 
-  const [cart, setCart] = useState([]);
 
   const menu = [
-    { id: 1, name: "Paneer Butter Masala", price: 180 },
-    { id: 2, name: "Chicken Biryani", price: 250 },
-    { id: 3, name: "Veg Fried Rice", price: 140 },
-    { id: 4, name: "Gulab Jamun", price: 60 },
+    { id: 1, name: 'Paneer Butter Masala', price: 180 },
+    { id: 2, name: 'Chicken Biryani', price: 250 },
+    { id: 3, name: 'Veg Fried Rice', price: 140 },
+    { id: 4, name: 'Gulab Jamun', price: 60 },
   ];
 
-  const addToCart = (item) => {
-    setCart((prev) => [...prev, item]);
-    Alert.alert("Added to Cart", `${item.name} added to your cart`);
-  };
 
   return (
     <ScrollView style={styles.container}>
       <Image source={{ uri: image }} style={styles.image} />
       <Text style={styles.name}>{name}</Text>
-      <Text style={styles.info}>
-        {cuisine} · ⭐ {rating}
-      </Text>
+      <Text style={styles.info}>{cuisine} · ⭐ {rating}</Text>
       <Text style={styles.section}>Menu</Text>
 
       {menu.map((item) => (
@@ -49,13 +38,12 @@ export default function RestaurantDetails({ route }) {
       ))}
 
       <Text style={styles.cartTotal}>
-        Cart Total: ₹ {cart.reduce((sum, item) => sum + item.price, 0)}
+      Cart Total: ₹ {cartItems.reduce((sum, item) => sum + item.price, 0)}
+
       </Text>
-      <View style={{ margin: 16 }}>
-        <Button
-          title="Go to Cart"
-          onPress={() => navigation.navigate("Cart")}
-        />
+
+      <View style={{ marginHorizontal: 16, marginBottom: 30 }}>
+        <Button title="Go to Cart" onPress={() => navigation.navigate('Cart')} />
       </View>
     </ScrollView>
   );
@@ -63,27 +51,27 @@ export default function RestaurantDetails({ route }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   image: {
-    width: "100%",
+    width: '100%',
     height: 220,
   },
   name: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: 16,
     marginHorizontal: 16,
   },
   info: {
     fontSize: 16,
-    color: "#555",
+    color: '#555',
     marginHorizontal: 16,
     marginBottom: 20,
   },
   section: {
     fontSize: 20,
-    fontWeight: "600",
+    fontWeight: '600',
     marginHorizontal: 16,
     marginBottom: 10,
   },
@@ -91,25 +79,25 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 15,
     padding: 12,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: '#f9f9f9',
     borderRadius: 8,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   dishName: {
     fontSize: 16,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   price: {
     fontSize: 14,
-    color: "#666",
+    color: '#666',
   },
   cartTotal: {
     marginHorizontal: 16,
     marginVertical: 20,
     fontSize: 18,
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: '600',
+    color: '#333',
   },
 });

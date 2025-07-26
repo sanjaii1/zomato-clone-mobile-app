@@ -1,21 +1,14 @@
 import { View, Text, FlatList, StyleSheet, Button, Alert } from 'react-native';
-import { useState } from 'react';
+import { useContext } from 'react';
+import { CartContext } from '../CartContext';
 
 export default function CartScreen() {
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: 'Paneer Butter Masala', price: 180 },
-    { id: 2, name: 'Gulab Jamun', price: 60 },
-  ]);
-
-  const removeItem = (id) => {
-    setCartItems((prev) => prev.filter(item => item.id !== id));
-  };
-
+  const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
   const total = cartItems.reduce((sum, item) => sum + item.price, 0);
 
   const placeOrder = () => {
     Alert.alert('Order Placed', 'Your order has been placed successfully!');
-    setCartItems([]);
+    clearCart();
   };
 
   return (
@@ -28,7 +21,7 @@ export default function CartScreen() {
           <View style={styles.item}>
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.price}>₹{item.price}</Text>
-            <Button title="Remove" onPress={() => removeItem(item.id)} />
+            <Button title="Remove" onPress={() => removeFromCart(item.id)} />
           </View>
         )}
         ListEmptyComponent={<Text style={styles.empty}>Your cart is empty.</Text>}
