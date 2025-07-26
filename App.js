@@ -12,26 +12,53 @@ export default function App() {
   return (
     <CartProvider>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: '#ff6b35',
+              elevation: 0,
+              shadowOpacity: 0,
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: '800',
+              fontSize: 20,
+            },
+            headerShadowVisible: false,
+            headerBackTitleVisible: false,
+            headerBackImageSource: null,
+            headerBackTitle: '',
+          }}
+        >
           <Stack.Screen
             name="Home"
             component={HomeScreen}
             options={({ navigation }) => ({
+              title: '🍽️ Foodie App',
               headerRight: () => <CartHeaderIcon navigation={navigation} />,
+              headerTitleAlign: 'center',
             })}
           />
           <Stack.Screen
             name="RestaurantDetails"
             component={RestaurantDetails}
-            options={({ navigation }) => ({
+            options={({ navigation, route }) => ({
+              title: route.params?.restaurant?.name || 'Restaurant',
               headerRight: () => <CartHeaderIcon navigation={navigation} />,
+              headerTitleAlign: 'center',
+              headerTitleStyle: {
+                fontWeight: '700',
+                fontSize: 18,
+              },
             })}
           />
           <Stack.Screen
             name="Cart"
             component={CartScreen}
             options={({ navigation }) => ({
+              title: '🛒 Your Cart',
               headerRight: () => <CartHeaderIcon navigation={navigation} />,
+              headerTitleAlign: 'center',
             })}
           />
         </Stack.Navigator>

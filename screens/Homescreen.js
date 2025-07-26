@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, TextInput, ScrollView, LinearGradient } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 
 const mockRestaurants = [
   {
@@ -38,8 +38,8 @@ export default function HomeScreen({ navigation }) {
     r.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  return (
-    <ScrollView style={styles.container}>
+  const renderHeader = () => (
+    <View>
       <View style={styles.header}>
         <Text style={styles.title}>Welcome to Foodie App 🍽️</Text>
         <Text style={styles.subtitle}>Discover amazing restaurants near you</Text>
@@ -55,50 +55,64 @@ export default function HomeScreen({ navigation }) {
         />
       </View>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryContainer}>
-        {categories.map((cat, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.categoryButton,
-              selectedCategory === cat && styles.categorySelected,
-            ]}
-            onPress={() => setSelectedCategory(cat)}
-          >
-            <Text style={[
-              styles.categoryText,
-              selectedCategory === cat && styles.categoryTextSelected
-            ]}>{cat}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      <View style={styles.categoryContainer}>
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={categories}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={[
+                styles.categoryButton,
+                selectedCategory === item && styles.categorySelected,
+              ]}
+              onPress={() => setSelectedCategory(item)}
+            >
+              <Text style={[
+                styles.categoryText,
+                selectedCategory === item && styles.categoryTextSelected
+              ]}>{item}</Text>
+            </TouchableOpacity>
+          )}
+          contentContainerStyle={styles.categoryList}
+        />
+      </View>
+    </View>
+  );
 
+  const renderRestaurant = ({ item }) => (
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => navigation.navigate('RestaurantDetails', { restaurant: item })}
+    >
+      <Image source={{ uri: item.image }} style={styles.image} />
+      <View style={styles.cardContent}>
+        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.description}>{item.description}</Text>
+        <View style={styles.metaRow}>
+          <View style={styles.ratingContainer}>
+            <Text style={styles.rating}>⭐ {item.rating}</Text>
+          </View>
+          <View style={styles.timeContainer}>
+            <Text style={styles.time}>⏱️ {item.deliveryTime}</Text>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
+  return (
+    <View style={styles.container}>
       <FlatList
         data={filteredData}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => navigation.navigate('RestaurantDetails', { restaurant: item })}
-          >
-            <Image source={{ uri: item.image }} style={styles.image} />
-            <View style={styles.cardContent}>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.description}>{item.description}</Text>
-              <View style={styles.metaRow}>
-                <View style={styles.ratingContainer}>
-                  <Text style={styles.rating}>⭐ {item.rating}</Text>
-                </View>
-                <View style={styles.timeContainer}>
-                  <Text style={styles.time}>⏱️ {item.deliveryTime}</Text>
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity>
-        )}
+        renderItem={renderRestaurant}
+        ListHeaderComponent={renderHeader}
         contentContainerStyle={{ paddingBottom: 100 }}
+        showsVerticalScrollIndicator={false}
       />
-    </ScrollView>
+    </View>
   );
 }
 
@@ -110,7 +124,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#ff6b35',
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: 20,
     paddingBottom: 20,
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
@@ -144,8 +158,10 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   categoryContainer: {
-    paddingHorizontal: 20,
     marginBottom: 20,
+  },
+  categoryList: {
+    paddingHorizontal: 20,
   },
   categoryButton: {
     backgroundColor: '#fff',
