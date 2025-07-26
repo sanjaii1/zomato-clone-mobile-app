@@ -1,7 +1,7 @@
 
 import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import { CartContext } from '../CartContext';
 
 export default function CartHeaderIcon({ navigation }) {
@@ -19,7 +19,7 @@ export default function CartHeaderIcon({ navigation }) {
       style={styles.touchable}
     >
       <View style={styles.container}>
-        <Icon name="cart-outline" size={26} color="#fff" />
+        <Text style={styles.cartIcon}>🛒</Text>
         {cartItems.length > 0 && (
           <View style={styles.badge}>
             <Text style={styles.badgeText}>{cartItems.length}</Text>
@@ -37,6 +37,10 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     padding: 4,
+  },
+  cartIcon: {
+    fontSize: 24,
+    color: '#fff',
   },
   badge: {
     position: 'absolute',

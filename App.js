@@ -57,6 +57,18 @@ function MainStack() {
           headerBackVisible: true,
         })}
       />
+      <Stack.Screen
+        name="Cart"
+        component={CartScreen}
+        options={({ navigation }) => ({
+          title: '🛒 Cart',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontWeight: '700',
+            fontSize: 18,
+          },
+        })}
+      />
     </Stack.Navigator>
   );
 }
