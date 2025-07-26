@@ -52,7 +52,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 50,
+    marginTop: 0,
     padding: 16,
     backgroundColor: '#fff',
   },
