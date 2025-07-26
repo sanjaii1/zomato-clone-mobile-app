@@ -40,7 +40,7 @@ function MainStack() {
         options={({ navigation }) => ({
           title: '🍽️ Foodie App',
           headerRight: () => <CartHeaderIcon navigation={navigation} />,
-          headerTitleAlign: 'center',
+          headerTitleAlign: 'left',
         })}
       />
       <Stack.Screen
