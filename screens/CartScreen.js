@@ -1,13 +1,13 @@
-import { View, Text, FlatList, StyleSheet, Button, Alert } from 'react-native';
-import { useContext } from 'react';
-import { CartContext } from '../CartContext';
+import { View, Text, FlatList, StyleSheet, Button, Alert } from "react-native";
+import { useContext } from "react";
+import { CartContext } from "../CartContext";
 
 export default function CartScreen() {
   const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
   const total = cartItems.reduce((sum, item) => sum + item.price, 0);
 
   const placeOrder = () => {
-    Alert.alert('Order Placed', 'Your order has been placed successfully!');
+    Alert.alert("Order Placed", "Your order has been placed successfully!");
     clearCart();
   };
 
@@ -24,12 +24,23 @@ export default function CartScreen() {
             <Button title="Remove" onPress={() => removeFromCart(item.id)} />
           </View>
         )}
-        ListEmptyComponent={<Text style={styles.empty}>Your cart is empty.</Text>}
+        ListEmptyComponent={
+          <Text style={styles.empty}>Your cart is empty.</Text>
+        }
       />
       {cartItems.length > 0 && (
         <View style={styles.footer}>
           <Text style={styles.total}>Total: ₹{total}</Text>
-          <Button title="Place Order" onPress={placeOrder} />
+          <Button
+            title="Place Order"
+            onPress={() => {
+              placeOrder();
+              Alert.alert(
+                "Order Placed",
+                "Your order has been added to history!"
+              );
+            }}
+          />
         </View>
       )}
     </View>
@@ -39,32 +50,32 @@ export default function CartScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 16,
   },
   heading: {
     fontSize: 24,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 16,
   },
   item: {
     marginBottom: 12,
     padding: 12,
-    backgroundColor: '#f1f1f1',
+    backgroundColor: "#f1f1f1",
     borderRadius: 8,
   },
   name: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   price: {
     fontSize: 16,
-    color: '#555',
+    color: "#555",
     marginBottom: 8,
   },
   total: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 10,
   },
   footer: {
@@ -72,8 +83,8 @@ const styles = StyleSheet.create({
   },
   empty: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 20,
-    color: '#777',
+    color: "#777",
   },
 });
