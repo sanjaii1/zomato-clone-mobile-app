@@ -7,6 +7,8 @@ import RestaurantDetails from './screens/RestaurantDetails';
 import CartScreen from './screens/CartScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import LoginScreen from './screens/LoginScreen';
+import SignupScreen from './screens/SignupScreen';
 import { CartProvider } from './CartContext';
 import CartHeaderIcon from './commponents/CartHeaderIcon';
 
@@ -69,6 +71,20 @@ function MainStack() {
           },
         })}
       />
+    </Stack.Navigator>
+  );
+}
+
+// Authentication Stack Navigator
+function AuthStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Signup" component={SignupScreen} />
     </Stack.Navigator>
   );
 }
@@ -153,7 +169,14 @@ export default function App() {
   return (
     <CartProvider>
       <NavigationContainer>
-        <TabNavigator />
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Auth" component={AuthStack} />
+          <Stack.Screen name="MainApp" component={TabNavigator} />
+        </Stack.Navigator>
       </NavigationContainer>
     </CartProvider>
   );
